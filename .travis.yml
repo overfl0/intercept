@@ -2,6 +2,7 @@ branches:
   only:
   - master
   - develop
+  - cross-travis
 
 dist: trusty
 language: python
@@ -50,6 +51,69 @@ matrix:
       script:
         - cd vcproj
         - CC=gcc-7 CXX=g++-7 cmake .. && make -j 3
+      
+    ###############################################################################
+    # Job #3 - Cross-compiling intercept
+    ###############################################################################
+    - language: cpp
+      addons:
+        apt:
+          packages:
+            # MXE dependencies
+            - autoconf
+            - automake
+            - autopoint
+            - bash
+            - bison 
+            - bzip2
+            - flex 
+            - gettext
+            - git 
+            - g++ 
+            - gperf 
+            - intltool
+            - libffi-dev
+            - libgdk-pixbuf2.0-dev
+            - libtool
+            - libltdl-dev
+            - libssl-dev
+            - libxml-parser-perl
+            - make
+            - openssl
+            - p7zip-full
+            - patch
+            - perl
+            - pkg-config
+            - python
+            - ruby
+            - scons
+            - sed
+            - unzip
+            - wget
+            - xz-utils
+            - g++-multilib
+            - libc6-dev-i386
+            - libtool-bin
+
+      cache:
+        directories:
+          - /opt/mxe
+
+      before_install:
+        - if [ ! -f /opt/mxe/usr/bin/i686-w64-mingw32.static.posix-cmake ]; then
+            git clone https://github.com/overfl0/mxe;
+            pushd mxe;
+            make -j 3 MXE_PLUGIN_DIRS=plugins/gcc7 MXE_TARGETS=i686-w64-mingw32.static.posix gcc;
+            mkdir -p /opt/mxe;
+            mv mxe/usr /opt/mxe/usr;
+            popd;
+          fi
+
+      before_script:
+
+      script:
+        - cd vcproj
+        - /opt/mxe/usr/bin/i686-w64-mingw32.static.posix-cmake .. && make -j 3
 
 notifications:
   email:
