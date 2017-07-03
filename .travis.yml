@@ -97,16 +97,15 @@ matrix:
 
       cache:
         directories:
-          - /opt/mxe
+          - /opt
 
       before_install:
         - if [ ! -f /opt/mxe/usr/bin/i686-w64-mingw32.static.posix-cmake ]; then
             echo "No cross-compiler found in the cached directory. Building it using MXE. This will take a long time!";
-            git clone https://github.com/overfl0/mxe;
-            pushd mxe;
+            mkdir -p /opt
+            git clone https://github.com/overfl0/mxe /opt/mxe;
+            pushd /opt/mxe
             make -j 3 MXE_PLUGIN_DIRS=plugins/gcc7 MXE_TARGETS=i686-w64-mingw32.static.posix gcc;
-            mkdir -p /opt/mxe;
-            mv usr /opt/mxe/usr;
             popd;
           fi
 
