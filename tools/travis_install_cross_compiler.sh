@@ -1,8 +1,24 @@
 #!/bin/bash
 
-export PATH=$PATH:/opt/mxe/usr/bin
+CROSS_COMPILER_PATH=/opt/mxe/usr/bin
+export PATH="$PATH:${CROSS_COMPILER_PATH}"
 
-if [ -f /opt/mxe/usr/bin/i686-w64-mingw32.static.posix-cmake ]
+CROSS_COMPILER_PRESENT=true
+for f in (
+    "${CROSS_COMPILER_PATH}/i686-w64-mingw32.static.posix-cmake"
+    "${CROSS_COMPILER_PATH}/i686-w64-mingw32.static.posix-gcc"
+    "${CROSS_COMPILER_PATH}/i686-w64-mingw32.static.posix-g++"
+    "${CROSS_COMPILER_PATH}/x86_64-w64-mingw32.static.posix-cmake"
+    "${CROSS_COMPILER_PATH}/x86_64-w64-mingw32.static.posix-gcc"
+    "${CROSS_COMPILER_PATH}/x86_64-w64-mingw32.static.posix-g++"
+) do
+    if [ ! -f "$f" ]
+    then
+        CROSS_COMPILER_PRESENT=false
+    fi
+done
+
+if [ $CROSS_COMPILER_PRESENT == true ]
 then
     echo "Cross-compiler found, continuing..."
     exit 0
@@ -16,9 +32,9 @@ mkdir -p /opt
 rm -rf /opt/mxe
 git clone https://github.com/overfl0/mxe /opt/mxe
 pushd /opt/mxe
+
 echo "Building..."
 make -j 3 MXE_PLUGIN_DIRS=plugins/gcc7 MXE_TARGETS='x86_64-w64-mingw32.static.posix i686-w64-mingw32.static.posix' gcc
-#cat /opt/mxe/log/gcc_i686-w64-mingw32.static.posix | curl -F 'sprunge=<-' http://sprunge.us
-#cat /opt/mxe/log/gcc_x86_64-w64-mingw32.static.posix | curl -F 'sprunge=<-' http://sprunge.us
+
 ls -l /opt/mxe/usr/bin/
 popd
