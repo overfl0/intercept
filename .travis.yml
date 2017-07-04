@@ -2,7 +2,6 @@ branches:
   only:
   - master
   - develop
-  - cross-travis
 
 dist: trusty
 language: python
