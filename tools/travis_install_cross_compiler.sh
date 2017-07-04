@@ -37,13 +37,11 @@ echo "##########################################################################
 echo "No cross-compiler found in the cached directory. Building it using MXE. This will take a long time!";
 echo "###################################################################################################";
 
-mkdir -p /opt
 rm -rf /opt/mxe
 git clone https://github.com/overfl0/mxe /opt/mxe
-pushd /opt/mxe
+cd /opt/mxe
 
 echo "Building..."
 make -j 3 MXE_PLUGIN_DIRS=plugins/gcc7 MXE_TARGETS='x86_64-w64-mingw32.static.posix i686-w64-mingw32.static.posix' gcc
 
 ls -l /opt/mxe/usr/bin/
-popd
