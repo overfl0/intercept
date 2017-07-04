@@ -108,7 +108,9 @@ matrix:
             rm -rf /opt/mxe;
             git clone https://github.com/overfl0/mxe /opt/mxe;
             pushd /opt/mxe;
+            echo "Building..."
             MXE_PLUGIN_DIRS=plugins/gcc7 MXE_TARGETS='x86_64-w64-mingw32.static.posix i686-w64-mingw32.static.posix' travis_wait 30 make -j 3 gcc;
+            ls -l /opt/mxe/usr/bin/
             popd;
           fi
 
