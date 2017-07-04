@@ -100,19 +100,7 @@ matrix:
           - /opt
 
       before_install:
-        - if [ ! -f /opt/mxe/usr/bin/i686-w64-mingw32.static.posix-cmake ]; then
-            echo "###################################################################################################";
-            echo "No cross-compiler found in the cached directory. Building it using MXE. This will take a long time!";
-            echo "###################################################################################################";
-            mkdir -p /opt;
-            rm -rf /opt/mxe;
-            git clone https://github.com/overfl0/mxe /opt/mxe;
-            pushd /opt/mxe;
-            echo "Building...";
-            MXE_PLUGIN_DIRS=plugins/gcc7 MXE_TARGETS='x86_64-w64-mingw32.static.posix i686-w64-mingw32.static.posix' travis_wait 30 make -j 3 gcc;
-            ls -l /opt/mxe/usr/bin/;
-            popd;
-          fi
+        -  travis_wait 30 tools/travis_install_cross_compiler.sh
 
       before_script:
 
