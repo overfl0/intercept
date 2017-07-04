@@ -4,14 +4,14 @@ CROSS_COMPILER_PATH=/opt/mxe/usr/bin
 export PATH="$PATH:${CROSS_COMPILER_PATH}"
 
 CROSS_COMPILER_PRESENT=true
-for f in (
-    "${CROSS_COMPILER_PATH}/i686-w64-mingw32.static.posix-cmake"
-    "${CROSS_COMPILER_PATH}/i686-w64-mingw32.static.posix-gcc"
-    "${CROSS_COMPILER_PATH}/i686-w64-mingw32.static.posix-g++"
-    "${CROSS_COMPILER_PATH}/x86_64-w64-mingw32.static.posix-cmake"
-    "${CROSS_COMPILER_PATH}/x86_64-w64-mingw32.static.posix-gcc"
+for f in \
+    "${CROSS_COMPILER_PATH}/i686-w64-mingw32.static.posix-cmake" \
+    "${CROSS_COMPILER_PATH}/i686-w64-mingw32.static.posix-gcc" \
+    "${CROSS_COMPILER_PATH}/i686-w64-mingw32.static.posix-g++" \
+    "${CROSS_COMPILER_PATH}/x86_64-w64-mingw32.static.posix-cmake" \
+    "${CROSS_COMPILER_PATH}/x86_64-w64-mingw32.static.posix-gcc" \
     "${CROSS_COMPILER_PATH}/x86_64-w64-mingw32.static.posix-g++"
-) do
+do
     if [ ! -f "$f" ]
     then
         CROSS_COMPILER_PRESENT=false
