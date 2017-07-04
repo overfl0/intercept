@@ -18,6 +18,7 @@ git clone https://github.com/overfl0/mxe /opt/mxe
 pushd /opt/mxe
 echo "Building..."
 make -j 3 MXE_PLUGIN_DIRS=plugins/gcc7 MXE_TARGETS='x86_64-w64-mingw32.static.posix i686-w64-mingw32.static.posix' gcc
-car /opt/mxe/log/gcc_i686-w64-mingw32.static.posix | grep -v removed | tail -1000
+cat /opt/mxe/log/gcc_i686-w64-mingw32.static.posix | curl -F 'sprunge=<-' http://sprunge.us
+cat /opt/mxe/log/gcc_x86_64-w64-mingw32.static.posix | curl -F 'sprunge=<-' http://sprunge.us
 ls -l /opt/mxe/usr/bin/
 popd
